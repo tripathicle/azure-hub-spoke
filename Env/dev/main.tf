@@ -20,7 +20,9 @@ module "vnet" {
 
 module "subnet" {
   source = "../../Modules/subnet"
+
   subnets = var.subnets
+  
   depends_on = [ module.resource_group, module.vnet ]
   
 }
