@@ -1,13 +1,3 @@
-variable "resource_groups" {
-  description = "Map of Resource Groups"
-  type = map(object({
-    name     = string
-    location = string
-  }))
-
-}
-
-# STEP 2: STORAGE ACCOUNTS
 variable "storageaccounts" {
   description = "map of storage account"
   type = map(object({
