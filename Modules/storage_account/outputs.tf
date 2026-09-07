@@ -7,7 +7,7 @@ output "storageaccounts" {
 
         # k =>stg.name
 
-        for k , stg in azurerm_storage_account.this :k =>{
+        for k , stg in azurerm_storage_account.this : k=>{
             
             id = stg.id
             name = stg.name

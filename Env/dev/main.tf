@@ -10,3 +10,10 @@ module "storage_account" {
   depends_on = [ module.resource_group ]
 
 }
+
+module "vnet" {
+  source = "../../Modules/vnet"
+  vnets = var.vnets
+  depends_on = [ module.resource_group ]
+  
+}
