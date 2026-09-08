@@ -1,27 +1,27 @@
 output "storageaccounts" {
-    description = "All storageaccounts attributes"
+  description = "All storageaccounts attributes"
 
-    value = {
+  value = {
 
-        # for k , stg in azurerm_storage_account.this :
+    # for k , stg in azurerm_storage_account.this :
 
-        # k =>stg.name
+    # k =>stg.name
 
-        for k , stg in azurerm_storage_account.this : k=>{
-            
-            id = stg.id
-            name = stg.name
-            location = stg.location
-            resource_group_name = stg.resource_group_name
+    for k, stg in azurerm_storage_account.this : k => {
 
+      id                  = stg.id
+      name                = stg.name
+      location            = stg.location
+      resource_group_name = stg.resource_group_name
 
-        }
-        
-
-
-
-    
 
     }
-  
+
+
+
+
+
+
+  }
+
 }

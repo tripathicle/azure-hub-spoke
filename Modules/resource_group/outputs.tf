@@ -1,12 +1,11 @@
-output "resource_group_names" {
-    description = "Names of all Resource Groups"
+output "resource_groups" {
+  description = "Map of created Resource Groups."
 
-    value = {
-      
-      for k , rg in azurerm_resource_group.this :
-      k => rg.name
-
-
+  value = {
+    for key, rg in azurerm_resource_group.this : key => {
+      id       = rg.id
+      name     = rg.name
+      location = rg.location
     }
-  
+  }
 }

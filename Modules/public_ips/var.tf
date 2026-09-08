@@ -1,11 +1,11 @@
-variable "vnets" {
-  description = "map of vnets"
+variable "pips" {
+  description = "public ip"
   type = map(object({
     name                = string
     location            = string
     resource_group_name = string
-    address_space       = list(string)
-
+    allocation_method   = string
   }))
+
 
 }
