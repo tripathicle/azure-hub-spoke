@@ -27,25 +27,63 @@ variable "storageaccounts" {
 # STEP 3: VIRTUAL NETWORKS
 
 variable "vnets" {
-    description = "map of vnets"
-    type = map(object({
-      name = string
-      location = string
-      resource_group_name = string
-      address_space = list(string)
-      
-    }))
-  
+  description = "map of vnets"
+  type = map(object({
+    name                = string
+    location            = string
+    resource_group_name = string
+    address_space       = list(string)
+
+  }))
+
 }
 
 # STEP 4: SUBNETS
 variable "subnets" {
-    description = "map of subnets"
-    type = map(object({
-      name = string
-      resource_group_name = string
-      virtual_network_name = string
-      address_prefixes = list(string)
-    }))
-  
+  description = "map of subnets"
+  type = map(object({
+    name                 = string
+    resource_group_name  = string
+    virtual_network_name = string
+    address_prefixes     = list(string)
+  }))
+
+}
+
+# STEP 4: PUBLIC PIPS
+variable "pips" {
+  description = "public ip"
+  type = map(object({
+    name                = string
+    location            = string
+    resource_group_name = string
+    allocation_method   = string
+  }))
+
+
+}
+
+#NICS
+
+variable "nics" {
+  description = "nics"
+
+  type = map(object({
+    name                = string
+    # location            = string
+    # resource_group_name = string 
+    resource_group_key = string
+    subnet_key         = string
+
+    ip_configuration = object({
+      name                          = string
+      private_ip_address_allocation = string
+      private_ip_address            = optional(string)
+
+    })
+
+
+
+  }))
+
 }
