@@ -2,7 +2,7 @@ variable "nics" {
   description = "nics"
 
   type = map(object({
-    name                = string
+    name = string
     # location            = string
     # resource_group_name = string
     resource_group_key = string
