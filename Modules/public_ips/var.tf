@@ -1,11 +1,20 @@
 variable "pips" {
-  description = "public ip"
+  description = "Map of public IP addresses."
+
   type = map(object({
-    name                = string
-    location            = string
-    resource_group_name = string
-    allocation_method   = string
+    name               = string
+    resource_group_key = string
+    allocation_method  = string
+    sku                = string
   }))
+}
 
+variable "resource_groups" {
+  description = "Map of resource groups."
 
+  type = map(object({
+    id       = string
+    name     = string
+    location = string
+  }))
 }

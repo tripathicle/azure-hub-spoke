@@ -11,34 +11,42 @@ module "storage_account" {
 
 }
 
-module "vnet" {
-  source     = "../../Modules/vnet"
-  vnets      = var.vnets
-  depends_on = [module.resource_group]
+module "vnets" {
+  source = "../../Modules/vnet"
 
+  vnets           = var.vnets
+  resource_groups = module.resource_group.resource_groups
 }
 
-module "subnet" {
+module "subnets" {
   source = "../../Modules/subnet"
 
-  subnets = var.subnets
-
-  depends_on = [module.resource_group, module.vnet]
-
+  subnets         = var.subnets
+  resource_groups = module.resource_group.resource_groups
+  vnets           = module.vnets.vnets
 }
+
+# module "public_ips" {
+#   source = "../../Modules/public_ips"
+#   pips   = var.pips
+
+#   depends_on = [module.resource_group, module.vnet, module.subnet]
+
+# }
 
 module "public_ips" {
   source = "../../Modules/public_ips"
-  pips   = var.pips
 
-  depends_on = [module.resource_group, module.vnet, module.subnet]
-
+  pips            = var.pips
+  resource_groups = module.resource_group.resource_groups
 }
+
+
 
 module "network_interface" {
   source          = "../../Modules/network_interface"
   nics            = var.nics
-  subnets         = module.subnet.subnets
+  subnets         = module.subnets.subnets
   resource_groups = module.resource_group.resource_groups
 
 }
@@ -57,6 +65,13 @@ module "subnet_nsg_association" {
 
   subnet_nsg_associations = var.subnet_nsg_associations
 
-  subnets = module.subnet.subnets
+  subnets = module.subnets.subnets
   nsgs    = module.network_security_group.nsgs
+}
+
+module "vnet_peering" {
+  source = "../../Modules/vnet_peering"
+
+  vnet_peerings = var.vnet_peerings
+  vnets         = module.vnets.vnets
 }
