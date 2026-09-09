@@ -69,7 +69,7 @@ variable "nics" {
   description = "nics"
 
   type = map(object({
-    name                = string
+    name = string
     # location            = string
     # resource_group_name = string 
     resource_group_key = string
@@ -86,4 +86,40 @@ variable "nics" {
 
   }))
 
+}
+
+
+
+variable "nsgs" {
+  description = "Map of Network Security Groups."
+
+  type = map(object({
+    name               = string
+    resource_group_key = string
+
+    security_rules = map(object({
+      name      = string
+      priority  = number
+      direction = string
+      access    = string
+      protocol  = string
+
+      source_port_ranges      = list(string)
+      destination_port_ranges = list(string)
+
+      source_address_prefixes      = list(string)
+      destination_address_prefixes = list(string)
+
+      description = optional(string)
+    }))
+  }))
+}
+
+variable "subnet_nsg_associations" {
+  description = "Map of subnet to Network Security Group associations."
+
+  type = map(object({
+    subnet_key = string
+    nsg_key    = string
+  }))
 }

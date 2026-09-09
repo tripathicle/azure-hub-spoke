@@ -42,3 +42,21 @@ module "network_interface" {
   resource_groups = module.resource_group.resource_groups
 
 }
+
+module "network_security_group" {
+  source          = "../../Modules/network_security_group"
+  nsgs            = var.nsgs
+  resource_groups = module.resource_group.resource_groups
+
+
+
+}
+
+module "subnet_nsg_association" {
+  source = "../../Modules/subnet_nsg_association"
+
+  subnet_nsg_associations = var.subnet_nsg_associations
+
+  subnets = module.subnet.subnets
+  nsgs    = module.network_security_group.nsgs
+}
