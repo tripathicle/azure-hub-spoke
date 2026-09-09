@@ -27,42 +27,38 @@ variable "storageaccounts" {
 # STEP 3: VIRTUAL NETWORKS
 
 variable "vnets" {
-  description = "map of vnets"
+  description = "Map of virtual networks."
+
   type = map(object({
-    name                = string
-    location            = string
-    resource_group_name = string
-    address_space       = list(string)
-
+    name               = string
+    resource_group_key = string
+    address_space      = list(string)
   }))
-
 }
 
 # STEP 4: SUBNETS
 variable "subnets" {
-  description = "map of subnets"
-  type = map(object({
-    name                 = string
-    resource_group_name  = string
-    virtual_network_name = string
-    address_prefixes     = list(string)
-  }))
+  description = "Map of subnets."
 
+  type = map(object({
+    name                = string
+    resource_group_key  = string
+    virtual_network_key = string
+    address_prefixes    = list(string)
+  }))
 }
 
 # STEP 4: PUBLIC PIPS
 variable "pips" {
-  description = "public ip"
+  description = "Map of public IP addresses."
+
   type = map(object({
-    name                = string
-    location            = string
-    resource_group_name = string
-    allocation_method   = string
+    name               = string
+    resource_group_key = string
+    allocation_method  = string
+    sku                = string
   }))
-
-
 }
-
 #NICS
 
 variable "nics" {
@@ -123,3 +119,18 @@ variable "subnet_nsg_associations" {
     nsg_key    = string
   }))
 }
+
+# VNET PEERING
+variable "vnet_peerings" {
+  description = "Map of VNet peerings."
+
+  type = map(object({
+    name                    = string
+    source_vnet_key         = string
+    remote_vnet_key         = string
+    allow_forwarded_traffic = bool
+    allow_gateway_transit   = bool
+    use_remote_gateways     = bool
+  }))
+}
+
