@@ -1,27 +1,11 @@
-output "storageaccounts" {
-  description = "All storageaccounts attributes"
+output "storage_accounts" {
+  description = "Map of created storage accounts."
 
   value = {
-
-    # for k , stg in azurerm_storage_account.this :
-
-    # k =>stg.name
-
-    for k, stg in azurerm_storage_account.this : k => {
-
-      id                  = stg.id
-      name                = stg.name
-      location            = stg.location
-      resource_group_name = stg.resource_group_name
-
-
+    for key, storage_account in azurerm_storage_account.this : key => {
+      id       = storage_account.id
+      name     = storage_account.name
+      location = storage_account.location
     }
-
-
-
-
-
-
   }
-
 }
