@@ -9,19 +9,14 @@ variable "resource_groups" {
 
 # STEP 2: STORAGE ACCOUNTS
 variable "storageaccounts" {
-  description = "map of storage account"
+  description = "Map of storage accounts."
+
   type = map(object({
     name                     = string
-    resource_group_name      = string
-    location                 = string
+    resource_group_key       = string
     account_tier             = string
     account_replication_type = string
-
-
-
-
   }))
-
 }
 
 # STEP 3: VIRTUAL NETWORKS
@@ -134,3 +129,73 @@ variable "vnet_peerings" {
   }))
 }
 
+
+variable "bastions" {
+  description = "Map of Azure Bastion hosts."
+
+  type = map(object({
+    name                   = string
+    resource_group_key     = string
+    subnet_key             = string
+    public_ip_key          = string
+    sku                    = string
+    copy_paste_enabled     = bool
+    file_copy_enabled      = bool
+    ip_connect_enabled     = bool
+    shareable_link_enabled = bool
+    tunneling_enabled      = bool
+    scale_units            = number
+  }))
+}
+
+#VMS
+
+variable "vms" {
+  description = "Map of virtual machines."
+
+  type = map(object({
+    name               = string
+    resource_group_key = string
+    nic_key            = string
+
+    size = string
+
+    admin_username       = string
+    admin_ssh_public_key = string
+
+    os_disk = object({
+      caching              = string
+      storage_account_type = string
+    })
+
+    source_image_reference = object({
+      publisher = string
+      offer     = string
+      sku       = string
+      version   = string
+    })
+  }))
+
+
+}
+
+
+variable "load_balancers" {
+  description = "Map of Azure Load Balancers."
+
+  type = map(object({
+    name               = string
+    resource_group_key = string
+    sku                = string
+
+    frontend_ip_configuration = object({
+      name           = string
+      public_ip_key  = string
+    })
+
+    backend_pool = object({
+      name    = string
+      nic_key = string
+    })
+  }))
+}

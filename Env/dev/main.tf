@@ -5,10 +5,10 @@ module "resource_group" {
 }
 
 module "storage_account" {
-  source          = "../../Modules/storage_account"
-  storageaccounts = var.storageaccounts
-  depends_on      = [module.resource_group]
+  source = "../../Modules/storage_account"
 
+  storageaccounts = var.storageaccounts
+  resource_groups = module.resource_group.resource_groups
 }
 
 module "vnets" {
@@ -74,4 +74,35 @@ module "vnet_peering" {
 
   vnet_peerings = var.vnet_peerings
   vnets         = module.vnets.vnets
+}
+
+module "azure_bastion" {
+  source = "../../Modules/azure_bastion"
+
+  bastions = var.bastions
+
+  resource_groups = module.resource_group.resource_groups
+  subnets         = module.subnets.subnets
+  pips            = module.public_ips.pips
+}
+
+module "virtual_machine" {
+  source = "../../Modules/virtual_machine"
+
+  vms = var.vms
+
+  resource_groups = module.resource_group.resource_groups
+  nics            = module.network_interface.nics
+}
+
+
+
+module "load_balancer" {
+  source = "../../Modules/load_balancer"
+
+  load_balancers = var.load_balancers
+
+  resource_groups = module.resource_group.resource_groups
+  public_ips      = module.public_ips.pips
+  nics            = module.network_interface.nics
 }
