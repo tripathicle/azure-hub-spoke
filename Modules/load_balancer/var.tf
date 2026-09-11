@@ -7,16 +7,32 @@ variable "load_balancers" {
     sku                = string
 
     frontend_ip_configuration = object({
-      name          = string
-      public_ip_key = string
+      name                           = string
+      public_ip_key                 = optional(string)
+      subnet_key                    = optional(string)
+      private_ip_address_allocation = optional(string)
+      private_ip_address            = optional(string)
     })
 
     backend_pool = object({
-      name    = string
-      nic_key = string
+      name     = string
+      nic_keys = set(string)
+    })
+
+    probe = object({
+      protocol     = string
+      port         = number
+      request_path = string
+    })
+
+    rule = object({
+      protocol      = string
+      frontend_port = number
+      backend_port  = number
     })
   }))
 }
+
 
 variable "resource_groups" {
   description = "Map of resource groups."
@@ -28,6 +44,7 @@ variable "resource_groups" {
   }))
 }
 
+
 variable "public_ips" {
   description = "Map of public IP addresses."
 
@@ -37,8 +54,19 @@ variable "public_ips" {
   }))
 }
 
+
 variable "nics" {
   description = "Map of network interfaces."
+
+  type = map(object({
+    id   = string
+    name = string
+  }))
+}
+
+
+variable "subnets" {
+  description = "Map of subnets."
 
   type = map(object({
     id   = string

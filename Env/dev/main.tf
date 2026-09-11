@@ -105,4 +105,6 @@ module "load_balancer" {
   resource_groups = module.resource_group.resource_groups
   public_ips      = module.public_ips.pips
   nics            = module.network_interface.nics
+  subnets         = module.subnets.subnets
 }
+

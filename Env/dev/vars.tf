@@ -180,6 +180,7 @@ variable "vms" {
 }
 
 
+
 variable "load_balancers" {
   description = "Map of Azure Load Balancers."
 
@@ -189,13 +190,29 @@ variable "load_balancers" {
     sku                = string
 
     frontend_ip_configuration = object({
-      name           = string
-      public_ip_key  = string
+      name                           = string
+      public_ip_key                 = optional(string)
+      subnet_key                    = optional(string)
+      private_ip_address_allocation = optional(string)
+      private_ip_address            = optional(string)
     })
 
     backend_pool = object({
-      name    = string
-      nic_key = string
+      name     = string
+      nic_keys = set(string)
+    })
+
+    probe = object({
+      protocol     = string
+      port         = number
+      request_path = string
+    })
+
+    rule = object({
+      protocol      = string
+      frontend_port = number
+      backend_port  = number
     })
   }))
 }
+
